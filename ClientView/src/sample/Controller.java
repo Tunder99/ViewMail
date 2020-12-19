@@ -92,7 +92,8 @@ public class Controller implements Initializable {
         if(actionEvent.getSource() == lastMail){
             mailText.setText(model.getEmails().get(model.last()));
         }else if(actionEvent.getSource() == mails){
-                    mailText.setText(model.getEmails().get(mails.getSelectionModel().getSelectedIndex()));
+            if(model.size() > 0) //mailText.setText(model.getEmails().get(mails.getSelectionModel().getSelectedIndex()));
+                mailText.setText(mails.getSelectionModel().getSelectedItem());
         }else if(actionEvent.getSource() == update){
             for(int i = 0; i < model.size(); i++)
                 mails.getItems().add(model.getEmails().get(i));
@@ -100,9 +101,10 @@ public class Controller implements Initializable {
             if(actionEvent.getSource() != lastMail) {
                 /*System.out.println("index " + mails.getSelectionModel().getSelectedIndex());
                 System.out.println("model " + model.getEmails().get(mails.getSelectionModel().getSelectedIndex()));*/
+                if(mails.getSelectionModel().getSelectedIndex() == 0 && model.size() > 1) mailText.setText(model.getEmails().get(1));
                 model.delete(mails.getSelectionModel().getSelectedIndex());
                 mails.getItems().remove(mails.getSelectionModel().getSelectedIndex());
-                //System.out.println("model:: " + model.toString());
+                if(model.size() == 0) mailText.setText("");
             }
         }
     }
