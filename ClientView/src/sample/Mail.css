@@ -1,4 +1,4 @@
-#NewMail {
+#newMail {
     -fx-background-image: url("img/basic-email-icon.jpg");
     -fx-background-repeat: stretch;
     -fx-background-size: 150 75;
@@ -7,7 +7,7 @@
     -fx-border-color: black;
 }
 
-#Update {
+#update {
     -fx-background-image: url("img/update-icon.jpg");
     -fx-background-repeat: stretch;
     -fx-background-size: 35 35;
@@ -35,13 +35,14 @@
 
 #topBorder {
     -fx-background-color: transparent;
+    -fx-border-radius: 4;
     -fx-border-color: black;
 }
 
 #reply {
     -fx-background-image: url("img/reply.jpg");
     -fx-background-repeat: stretch;
-    -fx-background-size: 35 35;
+    -fx-background-size: 20 20;
     -fx-background-position: center center;
     -fx-background-color: transparent;
     -fx-border-radius: 0;
@@ -51,7 +52,7 @@
 #replyAll {
     -fx-background-image: url("img/replyAll.jpg");
     -fx-background-repeat: stretch;
-    -fx-background-size: 35 35;
+    -fx-background-size: 20 20;
     -fx-background-position: center center;
     -fx-background-color: transparent;
     -fx-border-radius: 0;
@@ -61,7 +62,7 @@
 #delete {
     -fx-background-image: url("img/delete.jpg");
     -fx-background-repeat: stretch;
-    -fx-background-size: 35 35;
+    -fx-background-size: 20 20;
     -fx-background-position: center center;
     -fx-background-color: red;
     -fx-border-radius: 0;
@@ -72,4 +73,14 @@
 #mailBox {
     -fx-background-color: transparent;
     -fx-border-color: black;
+}
+
+#lastMail {
+    -fx-border-radius: 0;
+    -fx-background-color: white;
+    -fx-border-color: black;
+}
+
+#mailText {
+    -fx-font-size: 15px;
 }

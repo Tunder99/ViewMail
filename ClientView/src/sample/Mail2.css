@@ -25,6 +25,7 @@
 
 #topBorder {
     -fx-background-color: transparent;
+    -fx-border-radius: 4;
     -fx-border-color: black;
 }
 
