@@ -5,7 +5,7 @@
 <AnchorPane id="AnchorPane" xmlns="http://javafx.com/javafx/10.0.2-internal"
             xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
     <children>
-        <Button fx:id="newMail" layoutX="0" layoutY="0" onAction="#handleButtonActionMail" prefHeight="50" prefWidth="75" />
+        <Button fx:id="newMail" layoutX="0" layoutY="0" onAction="#handleButtonActionNewMail" prefHeight="50" prefWidth="75" />
         <Button fx:id="update" layoutX="75" layoutY="0" onAction="#handleButtonActionMail" prefHeight="50" prefWidth="75" />
         <TextField fx:id="topBorder" layoutX="175" layoutY="25" prefHeight="50" prefWidth="800" disable="true" />
         <TextField fx:id="mailBox" layoutX="150" layoutY="0" prefHeight="809" prefWidth="1035" disable="true" />
