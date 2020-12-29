@@ -194,7 +194,6 @@ public class Controller implements Initializable {
     }
 
     public void sceneChanger(Button bt1){
-        System.out.println("test commit");
         Stage stage;
         Parent root = null;
 
