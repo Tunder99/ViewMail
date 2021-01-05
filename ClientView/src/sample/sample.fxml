@@ -11,6 +11,6 @@
                    promptText="Insert your email address"/>
         <PasswordField fx:id="pwd" alignment="center" layoutX="650" layoutY="380" prefHeight="35" prefWidth="250"
                    promptText="Insert your password"/>
-        <Button fx:id="bt1" layoutX="835" layoutY="450" onAction="#handleButtonActionLogin" prefHeight="35" prefWidth="65" text="Login" />
+        <Button  fx:id="bt1" layoutX="835" layoutY="450" onAction="#handleButtonActionLogin" prefHeight="35" prefWidth="65" text="Login" />
     </children>
 </AnchorPane>

@@ -75,12 +75,6 @@
     -fx-border-color: black;
 }
 
-#lastMail {
-    -fx-border-radius: 0;
-    -fx-background-color: white;
-    -fx-border-color: black;
-}
-
 #mailText {
     -fx-font-size: 15px;
 }

@@ -1,23 +1,20 @@
 package sample;
 
+import ComunicationObjects.Email;
 import java.util.ArrayList;
 
 public class DataModel {
-    private ArrayList<String> emails;
+    private ArrayList<Email> emails;
 
     public DataModel(){
         emails = new ArrayList<>();
-        emails.add("Test1");
-        emails.add("Test2");
-        emails.add("Test3");
-        emails.add("Test4");
     }
 
-    public ArrayList<String> getEmails() {
+    public ArrayList<Email> getEmails() {
         return emails;
     }
 
-    public void setEmails(ArrayList<String> emails) {
+    public void setEmails(ArrayList<Email> emails) {
         this.emails = emails;
     }
 
@@ -27,10 +24,6 @@ public class DataModel {
 
     public void delete(int index){
         emails.remove(index);
-    }
-
-    public int last(){
-        return emails.size() - 1;
     }
 
     @Override

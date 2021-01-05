@@ -7,7 +7,6 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import java.net.URL;
 
-
 public class Main extends Application {
 
     @Override
@@ -26,6 +25,7 @@ public class Main extends Application {
         primaryStage.setTitle("Client mail");
         primaryStage.setScene(scene);
         primaryStage.setMaximized(true);
+        //primaryStage.setResizable(false);
         primaryStage.show();
     }
 
