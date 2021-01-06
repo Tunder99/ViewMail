@@ -1,6 +1,6 @@
 package sample;
 
-import ComunicationObjects.Email;
+import it.adz.prog3.mail.comunicationobjects.Email;
 import java.util.ArrayList;
 
 public class DataModel {

@@ -1,4 +1,4 @@
-package ComunicationObjects;
+package it.adz.prog3.mail.comunicationobjects;
 
 import java.io.Serializable;
 import java.util.ArrayList;

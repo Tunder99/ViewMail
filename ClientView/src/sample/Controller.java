@@ -1,6 +1,6 @@
 package sample;
 
-import ComunicationObjects.*;
+import it.adz.prog3.mail.comunicationobjects.*;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -69,7 +69,7 @@ public class Controller implements Initializable {
     private String mail, password;
 
     @FXML
-    private void handleButtonActionLogin(ActionEvent actionEvent) throws IOException {
+    private void handleButtonActionLogin(ActionEvent actionEvent) throws IOException{
         Socket socket = null;
         ObjectOutputStream out = null;
         ObjectInputStream in = null;

@@ -1,4 +1,4 @@
-package ComunicationObjects;
+package it.adz.prog3.mail.comunicationobjects;
 
 public class User {
     private String name;
