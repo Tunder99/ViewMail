@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" xmlns="http://javafx.com/javafx/10.0.2-internal"
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.unito.progtre.mailview.ControllerNewMail">
+    <children>
+        <Label fx:id="sendingTo" layoutX="20" layoutY="20" prefHeight="25" prefWidth="25" text="To"/>
+        <TextField fx:id="toMails" layoutX="60" layoutY="20" prefHeight="25" prefWidth="425"/>
+        <Label fx:id="subject" layoutX="20" layoutY="60" prefHeight="25" prefWidth="50" text="Subject"/>
+        <TextField fx:id="subjectText" layoutX="85" layoutY="60" prefHeight="25" prefWidth="400"/>
+        <TextArea fx:id="text" wrapText="true" layoutX="20" layoutY="100" prefHeight="500" prefWidth="700" />
+        <Button fx:id="send" layoutX="20" layoutY="625" onAction="#handleButtonActionSend" prefHeight="30" prefWidth="50" text="Send" />
+    </children>
+</AnchorPane>

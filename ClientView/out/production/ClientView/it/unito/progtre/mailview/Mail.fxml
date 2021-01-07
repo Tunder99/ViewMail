@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" xmlns="http://javafx.com/javafx/10.0.2-internal"
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.unito.progtre.mailview.ControllerMail">
+    <children>
+        <Button fx:id="newMail" layoutX="0" layoutY="0" onAction="#handleButtonActionNewMail" prefHeight="50" prefWidth="75" />
+        <Button fx:id="update" layoutX="75" layoutY="0" onAction="#handleButtonActionMail" prefHeight="50" prefWidth="75" />
+        <TextField fx:id="topBorder" layoutX="175" layoutY="25" prefHeight="50" prefWidth="800" disable="true" />
+        <TextField fx:id="mailBox" layoutX="150" layoutY="0" prefHeight="809" prefWidth="1035" disable="true" />
+        <ComboBox fx:id="mails" layoutX="25" layoutY="70" promptText="Mails" onAction="#handleButtonActionMail"/>
+        <Label fx:id="from" layoutX="190" layoutY="28" prefHeight="20" prefWidth="50" text="From: " />
+        <Label fx:id="to" layoutX="190" layoutY="53" prefHeight="20" prefWidth="50" text="To: " />
+        <Button fx:id="delete" layoutX="1100" layoutY="25" onAction="#handleButtonActionMail" prefHeight="35" prefWidth="35"/>
+        <Button fx:id="reply" layoutX="1000" layoutY="25" onAction="#handleButtonReplyEmail" prefHeight="35" prefWidth="35" />
+        <Button fx:id="replyAll" layoutX="1040" layoutY="25" onAction="#handleButtonReplyEmail" prefHeight="35" prefWidth="35" />
+        <Label fx:id="mailText" layoutX="180" layoutY="125" prefWidth="800" />
+    </children>
+</AnchorPane>
