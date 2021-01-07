@@ -151,10 +151,10 @@ public class ControllerView implements Initializable {
             try {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("Mail2.fxml"));
                 root = loader.load();
+                Scene scene = new Scene(root, stage.getMaxWidth(), stage.getMaxHeight());
                 ControllerMail controller = loader.getController();
                 controller.setModel(model);
 
-                Scene scene = new Scene(root, stage.getMaxWidth(), stage.getMaxHeight());
                 URL url = this.getClass().getResource("Mail2.css");
                 if (url == null) {
                     System.out.println("Resource not found. Aborting.");
