@@ -9,15 +9,15 @@ import java.net.URL;
 
 public class Main extends Application {
 
-    @Override
     public void start(Stage primaryStage) {
         Model model = new Model();
 
         try{
+            //Parent root = FXMLLoader.load(getClass().getResource("View.fxml"));
             FXMLLoader loader = new FXMLLoader(getClass().getResource("View.fxml"));
             Parent root = loader.load();
-            Controller controller = loader.getController();
             Scene scene = new Scene(root);
+            Controller controller = loader.getController();
             controller.setModel(model);
 
             URL url = this.getClass().getResource("Login.css");

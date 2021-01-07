@@ -1,6 +1,5 @@
 package it.unito.progtre.mailview;
 
-import com.sun.javafx.iio.ios.IosDescriptor;
 import it.adz.prog3.mail.comunicationobjects.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -75,7 +74,7 @@ public class Controller implements Initializable {
         ObjectOutputStream out = null;
         ObjectInputStream in = null;
         Alert errorAlert = new Alert(Alert.AlertType.ERROR);
-        mail = TFemail.getText();
+        mail = TFemail.getText();       
         password = pwd.getText();
 
         try {
@@ -135,7 +134,6 @@ public class Controller implements Initializable {
                     errorAlert.setContentText("");
                     errorAlert.showAndWait();
                 }
-
             }else{
                 System.out.println("Email not valid");
                 errorAlert.setHeaderText("Email not valid");
@@ -271,10 +269,6 @@ public class Controller implements Initializable {
         //to be defined
     }
 
-    public void setModel(Model m){
-        this.model = m;
-    }
-
     public void sceneChanger(Button bt1){
         Stage stage;
         Parent root = null;
@@ -353,8 +347,17 @@ public class Controller implements Initializable {
         return sb.toString();
     }
 
+    public void setModel(Model m){
+        this.model = m;
+    }
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        /*if (model != null) {
+            throw new IllegalStateException("Model can only be initialized once");
+        }
+        model = new Model();*/
+
         if(location.toExternalForm().contains("Mail.fxml")){
             for (Email e : model.getEmails()) {
                 System.out.println(e.getSubject());
