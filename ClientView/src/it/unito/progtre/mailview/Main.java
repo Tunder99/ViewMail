@@ -13,11 +13,11 @@ public class Main extends Application {
         Model model = new Model();
 
         try{
-            //Parent root = FXMLLoader.load(getClass().getResource("View.fxml"));
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("View.fxml"));
+            //Parent root = FXMLLoader.load(getClass().getResource("LoginView.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("LoginView.fxml"));
             Parent root = loader.load();
             Scene scene = new Scene(root);
-            Controller controller = loader.getController();
+            ControllerView controller = loader.getController();
             controller.setModel(model);
 
             URL url = this.getClass().getResource("Login.css");

@@ -5,6 +5,8 @@ import java.util.ArrayList;
 
 public class Model {
     private ArrayList<Email> emails;
+    private String password;
+    private String mail;
 
     public Model(){
         emails = new ArrayList<>();
@@ -24,6 +26,22 @@ public class Model {
 
     public void delete(int index){
         emails.remove(index);
+    }
+
+    public void setMail(String mail){
+        this.mail = mail;
+    }
+
+    public void setPassword(String password){
+        this.password = password;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public String getMail() {
+        return mail;
     }
 
     @Override

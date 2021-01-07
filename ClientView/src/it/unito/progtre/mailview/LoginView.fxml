@@ -3,7 +3,7 @@
 <?import javafx.scene.layout.*?>
 
 <AnchorPane id="AnchorPane" prefHeight="200" prefWidth="320" xmlns="http://javafx.com/javafx/10.0.2-internal"
-            xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.unito.progtre.mailview.Controller">
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.unito.progtre.mailview.ControllerView">
     <children>
         <TextField fx:id="TFborder" alignment="center" layoutX="627" layoutY="200" prefHeight="300" prefWidth="300" disable="true"/>
         <Label fx:id="labelAccedi" alignment="center" layoutX="700" layoutY="200" prefHeight="160" prefWidth="126.0" text="Sign In"/>
