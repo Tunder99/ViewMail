@@ -36,7 +36,6 @@ public class ControllerView implements Initializable {
     @FXML
     private Button bt1;
 
-    private Date lastUpdateDate;
     private String mail, password;
     private Model model;
 
@@ -73,8 +72,8 @@ public class ControllerView implements Initializable {
                             socket = new Socket("poggivpn.ddns.net", 8189);
                             out = new ObjectOutputStream(socket.getOutputStream());
                             in = new ObjectInputStream(socket.getInputStream());
+                            model.setDate(new Date());
                             RequestDownloadEmail req = new RequestDownloadEmail(mail, digest("SHA-256", password));
-                            lastUpdateDate = new Date();    //current date
                             out.writeObject(req);
 
                             try{
@@ -129,23 +128,24 @@ public class ControllerView implements Initializable {
             try {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("Mail.fxml"));
                 root = loader.load();
+                Scene scene = new Scene(root, stage.getMaxWidth(), stage.getMaxHeight());
                 ControllerMail controller = loader.getController();
                 controller.setModel(model);
+
+                URL url = this.getClass().getResource("Mail.css");
+                if (url == null) {
+                    System.out.println("Resource not found. Aborting.");
+                    System.exit(-1);
+                }
+                String css = url.toExternalForm();
+                scene.getStylesheets().add(css);
+                stage.setTitle("Mail box");
+                stage.setMaximized(true);
+                stage.setScene(scene);
+                stage.show();
             } catch (IOException e) {
                 e.printStackTrace();
             }
-
-            Scene scene = new Scene(root, stage.getMaxWidth(), stage.getMaxHeight());
-            URL url = this.getClass().getResource("Mail.css");
-            if (url == null) {
-                System.out.println("Resource not found. Aborting.");
-                System.exit(-1);
-            }
-            String css = url.toExternalForm();
-            scene.getStylesheets().add(css);
-            stage.setMaximized(true);
-            stage.setScene(scene);
-            stage.show();
         } else {
             stage = (Stage) bt1.getScene().getWindow();
             try {
@@ -162,10 +162,10 @@ public class ControllerView implements Initializable {
                 }
                 String css = url.toExternalForm();
                 scene.getStylesheets().add(css);
+                stage.setTitle("Mail box");
                 stage.setMaximized(true);
                 stage.setScene(scene);
                 stage.show();
-
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -211,7 +211,5 @@ public class ControllerView implements Initializable {
     }
 
     @Override
-    public void initialize(URL location, ResourceBundle resources) {
-
-    }
+    public void initialize(URL location, ResourceBundle resources) {}
 }

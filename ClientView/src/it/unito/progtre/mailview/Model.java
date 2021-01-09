@@ -2,11 +2,13 @@ package it.unito.progtre.mailview;
 import it.adz.prog3.mail.comunicationobjects.Email;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 public class Model {
     private ArrayList<Email> emails;
     private String password;
     private String mail;
+    private Date date;
 
     public Model(){
         emails = new ArrayList<>();
@@ -34,6 +36,14 @@ public class Model {
 
     public void setPassword(String password){
         this.password = password;
+    }
+
+    public void setDate(Date date){
+        this.date = date;
+    }
+
+    public Date getDate() {
+        return date;
     }
 
     public String getPassword() {

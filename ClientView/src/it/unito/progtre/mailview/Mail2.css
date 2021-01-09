@@ -1,6 +1,6 @@
 #newMail {
     -fx-background-image: url("img/basic-email-icon.jpg");
-    -fx-background-repeat: stretch;
+    -fx-background-repeat: no-repeat;
     -fx-background-size: 150 75;
     -fx-background-position: center center;
     -fx-border-radius: 0;
@@ -9,7 +9,7 @@
 
 #Update {
     -fx-background-image: url("img/update-icon.jpg");
-    -fx-background-repeat: stretch;
+    -fx-background-repeat: no-repeat;
     -fx-background-size: 35 35;
     -fx-background-position: center center;
     -fx-border-radius: 0;

@@ -1,6 +1,6 @@
 #newMail {
     -fx-background-image: url("img/basic-email-icon.jpg");
-    -fx-background-repeat: stretch;
+    -fx-background-repeat: no-repeat;
     -fx-background-size: 150 75;
     -fx-background-position: center center;
     -fx-border-radius: 0;
@@ -9,7 +9,7 @@
 
 #update {
     -fx-background-image: url("img/update-icon.jpg");
-    -fx-background-repeat: stretch;
+    -fx-background-repeat: no-repeat;
     -fx-background-size: 35 35;
     -fx-background-position: center center;
     -fx-border-radius: 0;
@@ -41,7 +41,7 @@
 
 #reply {
     -fx-background-image: url("img/reply.jpg");
-    -fx-background-repeat: stretch;
+    -fx-background-repeat: no-repeat;
     -fx-background-size: 20 20;
     -fx-background-position: center center;
     -fx-background-color: transparent;
@@ -51,8 +51,18 @@
 
 #replyAll {
     -fx-background-image: url("img/replyAll.jpg");
-    -fx-background-repeat: stretch;
+    -fx-background-repeat: no-repeat;
     -fx-background-size: 20 20;
+    -fx-background-position: center center;
+    -fx-background-color: transparent;
+    -fx-border-radius: 0;
+    -fx-border-color: black;
+}
+
+#forward {
+    -fx-background-image: url("img/forward-icon.jpg");
+    -fx-background-repeat: no-repeat;
+    -fx-background-size: 25 25;
     -fx-background-position: center center;
     -fx-background-color: transparent;
     -fx-border-radius: 0;
@@ -61,7 +71,7 @@
 
 #delete {
     -fx-background-image: url("img/delete.jpg");
-    -fx-background-repeat: stretch;
+    -fx-background-repeat: no-repeat;
     -fx-background-size: 20 20;
     -fx-background-position: center center;
     -fx-background-color: red;

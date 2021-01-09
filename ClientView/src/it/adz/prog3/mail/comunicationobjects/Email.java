@@ -64,4 +64,9 @@ public class Email implements Comparable<Email>, Serializable {
         else
             return 1;
     }
+
+    @Override
+    public String toString() {
+        return subject;
+    }
 }

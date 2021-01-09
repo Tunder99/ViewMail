@@ -14,7 +14,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -26,7 +25,6 @@ import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.ResourceBundle;
-import java.util.regex.Pattern;
 
 public class ControllerNewMail implements Initializable {
 
@@ -43,7 +41,16 @@ public class ControllerNewMail implements Initializable {
     private Button send;
 
     private Model model;
-    private String mail, password;
+
+    public void setToMails(String toMails){
+        this.toMails.setText(toMails);
+    }
+
+    public void setSubjectText(String subjectText){
+        this.subjectText.setText(subjectText);
+    }
+
+    public void setMailText(String text){ this.text.setText(text); }
 
     public void handleButtonActionSend(ActionEvent actionEvent) {
         Socket socket = null;
@@ -52,6 +59,11 @@ public class ControllerNewMail implements Initializable {
         RequestSendEmail req = null;
         Alert errorAlert = new Alert(Alert.AlertType.ERROR);
         ArrayList<String> to = new ArrayList<>(Arrays.asList(toMails.getText().split(",")));
+        for(int i = 0; i < to.size(); i++){
+            String str = to.get(i);
+            to.remove(i);
+            to.add(i, str.trim());
+        }
         for (int i = 0; i < to.size(); i++)
             to.get(i).trim();
 
@@ -120,18 +132,6 @@ public class ControllerNewMail implements Initializable {
                 e.printStackTrace();
             }
         }
-    }
-
-    public static boolean isEmailValid(String email) {
-        String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\."+
-                "[a-zA-Z0-9_+&*-]+)*@" +
-                "(?:[a-zA-Z0-9-]+\\.)+[a-z" +
-                "A-Z]{2,7}$";
-
-        Pattern pat = Pattern.compile(emailRegex);
-        if (email == null)
-            return false;
-        return pat.matcher(email).matches();
     }
 
     //I seguenti due metodi criptano le pass (quando si genera un nuovo utente)
@@ -213,7 +213,5 @@ public class ControllerNewMail implements Initializable {
     }
 
     @Override
-    public void initialize(URL location, ResourceBundle resources) {
-
-    }
+    public void initialize(URL location, ResourceBundle resources) {}
 }
