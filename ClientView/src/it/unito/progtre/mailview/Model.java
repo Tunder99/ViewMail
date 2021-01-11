@@ -1,5 +1,6 @@
 package it.unito.progtre.mailview;
 import it.adz.prog3.mail.comunicationobjects.Email;
+import javafx.scene.Scene;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -9,6 +10,7 @@ public class Model {
     private String password;
     private String mail;
     private Date date;
+    private Scene scene;
 
     public Model(){
         emails = new ArrayList<>();

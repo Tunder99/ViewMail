@@ -15,7 +15,7 @@ public class TimerUpdate extends TimerTask{
     @Override
     public void run() {
         Platform.runLater(() -> {
-            controller.updateEmail();
+            controller.updateEmail(false);
         });
     }
 

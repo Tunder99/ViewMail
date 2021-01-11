@@ -46,9 +46,6 @@ public class ControllerMail implements Initializable {
     private Button reply;
 
     @FXML
-    private Button replyAll;
-
-    @FXML
     private Button delete;
 
     private Model model;
@@ -88,11 +85,12 @@ public class ControllerMail implements Initializable {
                 fromMail.setText(mails.getSelectionModel().getSelectedItem().getFrom());
                 toMail.setText(("" + mails.getSelectionModel().getSelectedItem().getTo()).replace("[", "").replace("]", ""));
         }else if(actionEvent.getSource() == update){
-            mails.getItems().clear();
+            if(mails != null) mails.getItems().clear();
             ////////////////////////
-            updateEmail();
+            updateEmail(true);
             sceneChanger(update);
             //Check/////////////////
+
         }else if(actionEvent.getSource() == delete){
             Socket socket;
             ObjectOutputStream out;
@@ -246,7 +244,7 @@ public class ControllerMail implements Initializable {
         }
     }
 
-    public void updateEmail(){
+    public void updateEmail(Boolean flag){
         Socket socket;
         ObjectOutputStream out;
         ObjectInputStream in;
@@ -257,7 +255,7 @@ public class ControllerMail implements Initializable {
             out = new ObjectOutputStream(socket.getOutputStream());
             in = new ObjectInputStream(socket.getInputStream());
             model.setDate(new Date());
-            RequestDownloadEmail req = new RequestDownloadEmail(model.getMail(), digest("SHA-256", model.getPassword()), model.getDate());
+            RequestDownloadEmail req = new RequestDownloadEmail(model.getMail(), digest("SHA-256", model.getPassword()), /*model.getDate()*/null);
             out.writeObject(req);
 
             Object obj2 = null;
@@ -270,15 +268,39 @@ public class ControllerMail implements Initializable {
                     errorAlert.setContentText("");
                     errorAlert.showAndWait();
                 }else{
-                    model.getEmails().addAll(rep2.getEmails());
-                    Collections.sort(model.getEmails());
+                    if(rep2 != null && rep2.getEmails() != null && rep2.getEmails().size() > 0) {
+                        Alert popup = new Alert(Alert.AlertType.INFORMATION);
+                        int c = 0;
+                        a: for(int i = 0; i < rep2.getEmails().size(); i++){
+                            for(int j = 0; j < model.size(); j++){
+                                if(rep2.getEmails().get(i).getUuid().equals(model.getEmails().get(j).getUuid())){
+                                    continue a;
+                                }
+                            }
+                            c++;
+                            model.getEmails().add(rep2.getEmails().get(i));
+                        }
+                        Collections.sort(model.getEmails());
+
+                        popup.setHeaderText("New mail");
+                        popup.setContentText("You've received " + c + " mail(s)!");
+                        popup.show();
+                        try {
+                            Thread.sleep(1000);
+                            popup.hide();
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
                 }
             }
         }catch (ClassNotFoundException | IOException e){
-            System.out.println("Connection error");
-            errorAlert.setHeaderText("Wrong server reply");
-            errorAlert.setContentText("");
-            errorAlert.showAndWait();
+            if(flag) {
+                System.out.println("Connection error");
+                errorAlert.setHeaderText("Wrong server reply");
+                errorAlert.setContentText("");
+                errorAlert.showAndWait();
+            }
         }
     }
 
@@ -358,6 +380,6 @@ public class ControllerMail implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        new Timer().scheduleAtFixedRate(new TimerUpdate(this),5000,50000);  //rimetti a 5000 alla fine
+        new Timer().scheduleAtFixedRate(new TimerUpdate(this),5000,5000);
     }
 }
