@@ -17,9 +17,7 @@ import java.net.Socket;
 import java.net.URL;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.Collections;
-import java.util.Date;
-import java.util.ResourceBundle;
+import java.util.*;
 
 public class ControllerMail implements Initializable {
 
@@ -84,13 +82,11 @@ public class ControllerMail implements Initializable {
     }
 
     public void handleButtonActionMail(ActionEvent actionEvent) {
-        if(actionEvent.getSource() == mails){
-            if(model.size() > 0) {
+        if(actionEvent.getSource() == mails && model.size() > 0){
                 mailText.setText(mails.getSelectionModel().getSelectedItem().getText());
                 mailSubject.setText(mails.getSelectionModel().getSelectedItem().getSubject());
                 fromMail.setText(mails.getSelectionModel().getSelectedItem().getFrom());
                 toMail.setText(("" + mails.getSelectionModel().getSelectedItem().getTo()).replace("[", "").replace("]", ""));
-            }
         }else if(actionEvent.getSource() == update){
             mails.getItems().clear();
             ////////////////////////
@@ -98,9 +94,64 @@ public class ControllerMail implements Initializable {
             sceneChanger(update);
             //Check/////////////////
         }else if(actionEvent.getSource() == delete){
-            model.delete(mails.getSelectionModel().getSelectedIndex());
-            mails.getItems().remove(mails.getSelectionModel().getSelectedIndex());
-            if(model.size() == 0) mailText.setText("");
+            Socket socket;
+            ObjectOutputStream out;
+            ObjectInputStream in;
+            Alert errorAlert = new Alert(Alert.AlertType.ERROR);
+
+            try{
+                socket = new Socket("poggivpn.ddns.net", 8189);
+                out = new ObjectOutputStream(socket.getOutputStream());
+                in = new ObjectInputStream(socket.getInputStream());
+
+                ArrayList<UUID> remove = new ArrayList<>();
+                remove.add(UUID.fromString(mails.getSelectionModel().getSelectedItem().getUuid()));
+                RequestEmailCancellation req = new RequestEmailCancellation(model.getMail(), digest("SHA-256", model.getPassword()), remove);
+                out.writeObject(req);
+
+                Object obj2 = null;
+                obj2 = in.readObject();
+                if(obj2 instanceof ReplyEmailCancellation){
+                    ReplyEmailCancellation rep2 = (ReplyEmailCancellation) obj2;
+                    if(rep2.getExitCode() == -1){
+                        System.out.println("Cancellation failed");
+                        errorAlert.setHeaderText("Cancellation failed, invalid login");
+                        errorAlert.setContentText("");
+                        errorAlert.showAndWait();
+                    }else if(rep2.getExitCode() == -2){
+                        System.out.println("Emails cancellation partially failed");
+                        errorAlert.setHeaderText("Cancellation partially failed");
+                        errorAlert.setContentText("");
+                        errorAlert.showAndWait();
+                    }else if(rep2.getExitCode() == -3){
+                        System.out.println("Impossible to cancel emails");
+                        errorAlert.setHeaderText("Impossible to cancel emails");
+                        errorAlert.setContentText("");
+                        errorAlert.showAndWait();
+                    }else{
+                        for(int i = 0; i < rep2.getDeleted().size(); i++){
+                            for(int j = 0; j < model.size(); j++){
+                                if(model.getEmails().get(j).getUuid().equals("" + rep2.getDeleted().get(i))){
+                                    model.delete(j);
+                                }
+                            }
+                        }
+                        mails.getItems().remove(mails.getSelectionModel().getSelectedIndex());
+                    }
+                }
+            }catch (ClassNotFoundException | IOException e){
+                System.out.println("Connection error");
+                errorAlert.setHeaderText("Wrong server reply");
+                errorAlert.setContentText("");
+                errorAlert.showAndWait();
+            }
+
+            if(model.size() == 0) {
+                mailText.setText("");
+                mailSubject.setText("");
+                fromMail.setText("");
+                toMail.setText("");
+            }
         }
     }
 
@@ -195,7 +246,7 @@ public class ControllerMail implements Initializable {
         }
     }
 
-    public void updateEmail(){      //Check update///////////////////
+    public void updateEmail(){
         Socket socket;
         ObjectOutputStream out;
         ObjectInputStream in;
@@ -234,7 +285,7 @@ public class ControllerMail implements Initializable {
     public void sceneChanger(Button bt1){
         Stage stage;
         Parent root = null;
-        if (model.size() > 0) { //al posti di true controllo sulla lunghezza dell'arraylist di mail per controllare se la casella è vuota
+        if (model.size() > 0) {
             stage = (Stage) bt1.getScene().getWindow();
             try {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("Mail.fxml"));
@@ -306,5 +357,7 @@ public class ControllerMail implements Initializable {
     }
 
     @Override
-    public void initialize(URL location, ResourceBundle resources) {}
+    public void initialize(URL location, ResourceBundle resources) {
+        new Timer().scheduleAtFixedRate(new TimerUpdate(this),5000,50000);  //rimetti a 5000 alla fine
+    }
 }

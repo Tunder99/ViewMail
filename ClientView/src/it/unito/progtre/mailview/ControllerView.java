@@ -12,7 +12,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -123,7 +122,7 @@ public class ControllerView implements Initializable {
     public void sceneChanger(Button bt1){
         Stage stage;
         Parent root = null;
-        if (model.size() > 0) { //al posti di true controllo sulla lunghezza dell'arraylist di mail per controllare se la casella è vuota
+        if (model.size() > 0) {
             stage = (Stage) bt1.getScene().getWindow();
             try {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("Mail.fxml"));

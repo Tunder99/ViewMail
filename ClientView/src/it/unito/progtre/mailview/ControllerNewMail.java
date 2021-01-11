@@ -159,7 +159,7 @@ public class ControllerNewMail implements Initializable {
     public void sceneChanger(Button bt1){
         Stage stage;
         Parent root = null;
-        if (model.size() > 0) { //al posti di true controllo sulla lunghezza dell'arraylist di mail per controllare se la casella è vuota
+        if (model.size() > 0) {
             stage = (Stage) bt1.getScene().getWindow();
             try {
                 //root = FXMLLoader.load(getClass().getResource("Mail.fxml"));
