@@ -296,7 +296,7 @@ public class ControllerMail implements Initializable {
             if(flag) {
                 System.out.println("Connection error");
                 errorAlert.setHeaderText("Wrong server reply");
-                errorAlert.setContentText("");
+                errorAlert.setContentText("Server might be offline.");
                 errorAlert.showAndWait();
             }
         }
