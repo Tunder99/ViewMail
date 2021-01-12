@@ -7,7 +7,7 @@
     -fx-border-color: black;
 }
 
-#Update {
+#update {
     -fx-background-image: url("img/update-icon.jpg");
     -fx-background-repeat: no-repeat;
     -fx-background-size: 35 35;

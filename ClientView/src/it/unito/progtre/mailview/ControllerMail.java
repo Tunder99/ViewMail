@@ -80,17 +80,14 @@ public class ControllerMail implements Initializable {
 
     public void handleButtonActionMail(ActionEvent actionEvent) {
         if(actionEvent.getSource() == mails && model.size() > 0){
-                mailText.setText(mails.getSelectionModel().getSelectedItem().getText());
-                mailSubject.setText(mails.getSelectionModel().getSelectedItem().getSubject());
-                fromMail.setText(mails.getSelectionModel().getSelectedItem().getFrom());
-                toMail.setText(("" + mails.getSelectionModel().getSelectedItem().getTo()).replace("[", "").replace("]", ""));
+            mailText.setText(mails.getSelectionModel().getSelectedItem().getText());
+            mailSubject.setText(mails.getSelectionModel().getSelectedItem().getSubject());
+            fromMail.setText(mails.getSelectionModel().getSelectedItem().getFrom());
+            toMail.setText(("" + mails.getSelectionModel().getSelectedItem().getTo()).replace("[", "").replace("]", ""));
         }else if(actionEvent.getSource() == update){
             if(mails != null) mails.getItems().clear();
-            ////////////////////////
             updateEmail(true);
             sceneChanger(update);
-            //Check/////////////////
-
         }else if(actionEvent.getSource() == delete){
             Socket socket;
             ObjectOutputStream out;
@@ -254,8 +251,8 @@ public class ControllerMail implements Initializable {
             socket = new Socket("poggivpn.ddns.net", 8189);
             out = new ObjectOutputStream(socket.getOutputStream());
             in = new ObjectInputStream(socket.getInputStream());
+            RequestDownloadEmail req = new RequestDownloadEmail(model.getMail(), digest("SHA-256", model.getPassword()), model.getDate());
             model.setDate(new Date());
-            RequestDownloadEmail req = new RequestDownloadEmail(model.getMail(), digest("SHA-256", model.getPassword()), /*model.getDate()*/null);
             out.writeObject(req);
 
             Object obj2 = null;
@@ -279,6 +276,7 @@ public class ControllerMail implements Initializable {
                             }
                             c++;
                             model.getEmails().add(rep2.getEmails().get(i));
+                            if(!flag) mails.getItems().add(model.getEmails().get(model.size()-1));
                         }
                         Collections.sort(model.getEmails());
 
