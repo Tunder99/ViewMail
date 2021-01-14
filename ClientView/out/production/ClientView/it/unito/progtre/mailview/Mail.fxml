@@ -6,19 +6,21 @@
             xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.unito.progtre.mailview.ControllerMail">
     <children>
         <Button fx:id="newMail" layoutX="0" layoutY="0" onAction="#handleButtonActionNewMail" prefHeight="50" prefWidth="75" />
-        <Button fx:id="update" layoutX="75" layoutY="0" onAction="#handleButtonActionMail" prefHeight="50" prefWidth="75" />
-        <TextField fx:id="topBorder" layoutX="175" layoutY="25" prefHeight="50" prefWidth="800" disable="true" />
-        <TextField fx:id="mailBox" layoutX="150" layoutY="0" prefHeight="809" prefWidth="1035" disable="true" />
-        <ComboBox fx:id="mails" layoutX="25" layoutY="70" maxWidth="100" promptText="Mails" onAction="#handleButtonActionMail"/>
+        <Button fx:id="update" layoutX="75" layoutY="0" onAction="#handleButtonActionUpdate" prefHeight="50" prefWidth="75" />
+        <TextField fx:id="topBorder" layoutX="175" layoutY="25" prefHeight="75" prefWidth="800" disable="true" />
+        <TextField fx:id="mailBox" layoutX="150" layoutY="0" prefHeight="750" prefWidth="1035" disable="true" />
+        <ComboBox fx:id="mails" layoutX="25" layoutY="70" maxWidth="100" promptText="Mails" onAction="#handleButtonActionCombobox"/>
         <Label fx:id="from" layoutX="190" layoutY="28" prefHeight="20" prefWidth="50" text="From: " />
         <Label fx:id="to" layoutX="190" layoutY="53" prefHeight="20" prefWidth="50" text="To: " />
+        <Label fx:id="dateLabel" layoutX="190" layoutY="78" prefHeight="20" prefWidth="50" text="Date: " />
         <Label fx:id="fromMail" layoutX="260" layoutY="28" prefHeight="20" prefWidth="800" />
         <Label fx:id="toMail" layoutX="260" layoutY="53 " prefHeight="20" prefWidth="800" />
-        <Button fx:id="delete" layoutX="1130" layoutY="25" onAction="#handleButtonActionMail" prefHeight="35" prefWidth="35"/>
+        <Label fx:id="date" layoutX="260" layoutY="78" prefHeight="20" prefWidth="800" />
+        <Button fx:id="delete" layoutX="1130" layoutY="25" onAction="#handleButtonActionDeleteMail" prefHeight="35" prefWidth="35"/>
         <Button fx:id="reply" layoutX="1000" layoutY="25" onAction="#handleButtonReplyEmail" prefHeight="35" prefWidth="35" />
         <Button fx:id="replyAll" layoutX="1040" layoutY="25" onAction="#handleButtonReplyEmail" prefHeight="35" prefWidth="35" />
         <Button fx:id="forward" layoutX="1080" layoutY="25" onAction="#handleButtonForwardEmail" prefHeight="35" prefWidth="35" />
         <Label fx:id="mailSubject" layoutX="180" layoutY="125" />
-        <Label fx:id="mailText" layoutX="180" layoutY="160" prefWidth="800" />
+        <Label fx:id="mailText" layoutX="180" layoutY="160" prefWidth="800" prefHeight="870" alignment="TOP_LEFT" />
     </children>
 </AnchorPane>

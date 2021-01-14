@@ -25,3 +25,11 @@
     -fx-border-radius: 3;
     -fx-border-color: black;
 }
+
+#cancel {
+    -fx-text-fill: black;
+    -fx-text-size: 25px;
+    -fx-background-color: transparent;
+    -fx-border-radius: 3;
+    -fx-border-color: black;
+}

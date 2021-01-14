@@ -11,5 +11,6 @@
         <TextField fx:id="subjectText" layoutX="85" layoutY="60" prefHeight="25" prefWidth="400"/>
         <TextArea fx:id="text" wrapText="true" layoutX="20" layoutY="100" prefHeight="500" prefWidth="700" />
         <Button fx:id="send" layoutX="20" layoutY="625" onAction="#handleButtonActionSend" prefHeight="30" prefWidth="50" text="Send" />
+        <Button fx:id="cancel" layoutX="90" layoutY="625" onAction="#handleButtonActionCancel" prefHeight="30" prefWidth="80" text="Cancel" />
     </children>
 </AnchorPane>

@@ -26,7 +26,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.ResourceBundle;
 
-public class ControllerNewMail implements Initializable {
+public class ControllerNewMail extends GenericController implements Initializable {
 
     @FXML
     private TextField toMails;
@@ -40,6 +40,9 @@ public class ControllerNewMail implements Initializable {
     @FXML
     private Button send;
 
+    @FXML
+    private Button cancel;
+
     private Model model;
 
     public void setToMails(String toMails){
@@ -51,6 +54,10 @@ public class ControllerNewMail implements Initializable {
     }
 
     public void setMailText(String text){ this.text.setText(text); }
+
+    public void handleButtonActionCancel(ActionEvent actionEvent) {
+        sceneChanger(cancel);
+    }
 
     public void handleButtonActionSend(ActionEvent actionEvent) {
         Socket socket = null;
@@ -162,16 +169,16 @@ public class ControllerNewMail implements Initializable {
         if (model.size() > 0) {
             stage = (Stage) bt1.getScene().getWindow();
             try {
-                //root = FXMLLoader.load(getClass().getResource("Mail.fxml"));
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("Mail.fxml"));
                 root = loader.load();
                 ControllerMail controller = loader.getController();
                 controller.setModel(model);
+                model.setController(controller);
             } catch (IOException e) {
                 e.printStackTrace();
             }
 
-            Scene scene = new Scene(root, stage.getMaxWidth(), stage.getMaxHeight());
+            Scene scene = new Scene(root, 1185, 750);
             URL url = this.getClass().getResource("Mail.css");
             if (url == null) {
                 System.out.println("Resource not found. Aborting.");
@@ -179,22 +186,22 @@ public class ControllerNewMail implements Initializable {
             }
             String css = url.toExternalForm();
             scene.getStylesheets().add(css);
-            stage.setMaximized(true);
+            stage.setResizable(false);
             stage.setScene(scene);
             stage.show();
         } else {
             stage = (Stage) bt1.getScene().getWindow();
             try {
-                //root = FXMLLoader.load(getClass().getResource("Mail2.fxml"));
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("Mail2.fxml"));
                 root = loader.load();
                 ControllerMail controller = loader.getController();
                 controller.setModel(model);
+                model.setController(controller);
             } catch (IOException e) {
                 e.printStackTrace();
             }
 
-            Scene scene = new Scene(root, stage.getMaxWidth(), stage.getMaxHeight());
+            Scene scene = new Scene(root, 1185, 750);
             URL url = this.getClass().getResource("Mail2.css");
             if (url == null) {
                 System.out.println("Resource not found. Aborting.");
@@ -202,7 +209,7 @@ public class ControllerNewMail implements Initializable {
             }
             String css = url.toExternalForm();
             scene.getStylesheets().add(css);
-            stage.setMaximized(true);
+            stage.setResizable(false);
             stage.setScene(scene);
             stage.show();
         }

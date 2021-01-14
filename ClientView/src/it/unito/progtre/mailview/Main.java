@@ -8,17 +8,17 @@ import javafx.stage.Stage;
 import java.net.URL;
 
 public class Main extends Application {
+    private Model model;
 
     public void start(Stage primaryStage) {
-        Model model = new Model();
-
+         model = new Model();
         try{
-            //Parent root = FXMLLoader.load(getClass().getResource("LoginView.fxml"));
             FXMLLoader loader = new FXMLLoader(getClass().getResource("LoginView.fxml"));
             Parent root = loader.load();
-            Scene scene = new Scene(root);
+            Scene scene = new Scene(root, 1185, 750);
             ControllerView controller = loader.getController();
             controller.setModel(model);
+            model.setController(controller);
 
             URL url = this.getClass().getResource("Login.css");
             if (url == null) {
@@ -30,11 +30,15 @@ public class Main extends Application {
 
             primaryStage.setTitle("Login");
             primaryStage.setScene(scene);
-            primaryStage.setMaximized(true);
+            primaryStage.setResizable(false);
             primaryStage.show();
         }catch (Exception e){
             e.printStackTrace();
         }
+    }
+
+    public void stop(){
+        model.setStopped();
     }
 
     public static void main(String[] args) {

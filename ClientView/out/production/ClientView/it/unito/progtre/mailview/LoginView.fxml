@@ -5,12 +5,12 @@
 <AnchorPane id="AnchorPane" prefHeight="200" prefWidth="320" xmlns="http://javafx.com/javafx/10.0.2-internal"
             xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.unito.progtre.mailview.ControllerView">
     <children>
-        <TextField fx:id="TFborder" alignment="center" layoutX="627" layoutY="200" prefHeight="300" prefWidth="300" disable="true"/>
-        <Label fx:id="labelAccedi" alignment="center" layoutX="700" layoutY="200" prefHeight="160" prefWidth="126.0" text="Sign In"/>
-        <TextField fx:id="TFemail" alignment="center" layoutX="650" layoutY="330" prefHeight="35" prefWidth="250"
+        <TextField fx:id="TFborder" alignment="center" layoutX="442" layoutY="200" prefHeight="300" prefWidth="300" disable="true"/>
+        <Label fx:id="labelAccedi" alignment="center" layoutX="515" layoutY="200" prefHeight="160" prefWidth="126.0" text="Sign In"/>
+        <TextField fx:id="TFemail" alignment="center" layoutX="468" layoutY="330" prefHeight="35" prefWidth="250"
                    promptText="Insert your email address"/>
-        <PasswordField fx:id="pwd" alignment="center" layoutX="650" layoutY="380" prefHeight="35" prefWidth="250"
+        <PasswordField fx:id="pwd" alignment="center" layoutX="468" layoutY="380" prefHeight="35" prefWidth="250"
                        promptText="Insert your password"/>
-        <Button  fx:id="bt1" layoutX="835" layoutY="450" onAction="#handleButtonActionLogin" prefHeight="35" prefWidth="65" text="Login" />
+        <Button  fx:id="bt1" layoutX="653" layoutY="450" onAction="#handleButtonActionLogin" prefHeight="35" prefWidth="65" text="Login" />
     </children>
 </AnchorPane>

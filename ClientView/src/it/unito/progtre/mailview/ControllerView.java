@@ -24,7 +24,7 @@ import java.util.Date;
 import java.util.ResourceBundle;
 import java.util.regex.Pattern;
 
-public class ControllerView implements Initializable {
+public class ControllerView extends GenericController implements Initializable {
 
     @FXML
     private TextField TFemail;
@@ -127,9 +127,10 @@ public class ControllerView implements Initializable {
             try {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("Mail.fxml"));
                 root = loader.load();
-                Scene scene = new Scene(root, stage.getMaxWidth(), stage.getMaxHeight());
+                Scene scene = new Scene(root, 1185, 750);
                 ControllerMail controller = loader.getController();
                 controller.setModel(model);
+                model.setController(controller);
 
                 URL url = this.getClass().getResource("Mail.css");
                 if (url == null) {
@@ -139,7 +140,7 @@ public class ControllerView implements Initializable {
                 String css = url.toExternalForm();
                 scene.getStylesheets().add(css);
                 stage.setTitle("Mail box");
-                stage.setMaximized(true);
+                stage.setResizable(false);
                 stage.setScene(scene);
                 stage.show();
             } catch (IOException e) {
@@ -150,9 +151,10 @@ public class ControllerView implements Initializable {
             try {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("Mail2.fxml"));
                 root = loader.load();
-                Scene scene = new Scene(root, stage.getMaxWidth(), stage.getMaxHeight());
+                Scene scene = new Scene(root, 1185, 750);
                 ControllerMail controller = loader.getController();
                 controller.setModel(model);
+                model.setController(controller);
 
                 URL url = this.getClass().getResource("Mail2.css");
                 if (url == null) {
@@ -162,7 +164,7 @@ public class ControllerView implements Initializable {
                 String css = url.toExternalForm();
                 scene.getStylesheets().add(css);
                 stage.setTitle("Mail box");
-                stage.setMaximized(true);
+                stage.setResizable(false);
                 stage.setScene(scene);
                 stage.show();
             } catch (IOException e) {

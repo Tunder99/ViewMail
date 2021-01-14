@@ -1,7 +1,5 @@
 package it.unito.progtre.mailview;
 import it.adz.prog3.mail.comunicationobjects.Email;
-import javafx.scene.Scene;
-
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -10,10 +8,14 @@ public class Model {
     private String password;
     private String mail;
     private Date date;
-    private Scene scene;
+    private Boolean timer;
+    private GenericController controller;
+    private Boolean stopped;
 
     public Model(){
         emails = new ArrayList<>();
+        timer = false;
+        stopped = false;
     }
 
     public ArrayList<Email> getEmails() {
@@ -54,6 +56,30 @@ public class Model {
 
     public String getMail() {
         return mail;
+    }
+
+    public Boolean getTimer() {
+        return timer;
+    }
+
+    public void setTimer(Boolean timer) {
+        this.timer = timer;
+    }
+
+    public GenericController getController() {
+        return controller;
+    }
+
+    public void setController(GenericController controller) {
+        this.controller = controller;
+    }
+
+    public Boolean getStopped() {
+        return stopped;
+    }
+
+    public void setStopped() {
+        this.stopped = true;
     }
 
     @Override

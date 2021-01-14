@@ -88,3 +88,8 @@
 #mailText {
     -fx-font-size: 15px;
 }
+
+#mailSubject {
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+}

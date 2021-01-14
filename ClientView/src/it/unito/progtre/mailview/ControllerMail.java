@@ -19,7 +19,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.*;
 
-public class ControllerMail implements Initializable {
+public class ControllerMail extends GenericController implements Initializable{
 
     @FXML
     private Button newMail;
@@ -38,6 +38,9 @@ public class ControllerMail implements Initializable {
 
     @FXML
     private Label toMail;
+
+    @FXML
+    private Label date;
 
     @FXML
     private Button update;
@@ -60,7 +63,8 @@ public class ControllerMail implements Initializable {
             root = loader.load();
             ControllerNewMail controller = loader.getController();
             controller.setModel(model);
-            Scene scene = new Scene(root, stage.getMaxWidth(), stage.getMaxHeight());
+            model.setController(controller);
+            Scene scene = new Scene(root, 1185, 750);
 
             URL url = this.getClass().getResource("NewMail.css");
             if (url == null) {
@@ -70,7 +74,7 @@ public class ControllerMail implements Initializable {
             String css = url.toExternalForm();
             scene.getStylesheets().add(css);
             stage.setTitle("New Mail");
-            stage.setMaximized(true);
+            stage.setResizable(false);
             stage.setScene(scene);
             stage.show();
         }catch (IOException e){
@@ -78,88 +82,38 @@ public class ControllerMail implements Initializable {
         }
     }
 
-    public void handleButtonActionMail(ActionEvent actionEvent) {
+    public void handleButtonActionCombobox(ActionEvent actionEvent) {
         if(actionEvent.getSource() == mails && model.size() > 0){
-            mailText.setText(mails.getSelectionModel().getSelectedItem().getText());
-            mailSubject.setText(mails.getSelectionModel().getSelectedItem().getSubject());
-            fromMail.setText(mails.getSelectionModel().getSelectedItem().getFrom());
-            toMail.setText(("" + mails.getSelectionModel().getSelectedItem().getTo()).replace("[", "").replace("]", ""));
-        }else if(actionEvent.getSource() == update){
-            if(mails != null) mails.getItems().clear();
-            updateEmail(true);
-            sceneChanger(update);
-        }else if(actionEvent.getSource() == delete){
-            Socket socket;
-            ObjectOutputStream out;
-            ObjectInputStream in;
-            Alert errorAlert = new Alert(Alert.AlertType.ERROR);
-
-            try{
-                socket = new Socket("poggivpn.ddns.net", 8189);
-                out = new ObjectOutputStream(socket.getOutputStream());
-                in = new ObjectInputStream(socket.getInputStream());
-
-                ArrayList<UUID> remove = new ArrayList<>();
-                remove.add(UUID.fromString(mails.getSelectionModel().getSelectedItem().getUuid()));
-                RequestEmailCancellation req = new RequestEmailCancellation(model.getMail(), digest("SHA-256", model.getPassword()), remove);
-                out.writeObject(req);
-
-                Object obj2 = null;
-                obj2 = in.readObject();
-                if(obj2 instanceof ReplyEmailCancellation){
-                    ReplyEmailCancellation rep2 = (ReplyEmailCancellation) obj2;
-                    if(rep2.getExitCode() == -1){
-                        System.out.println("Cancellation failed");
-                        errorAlert.setHeaderText("Cancellation failed, invalid login");
-                        errorAlert.setContentText("");
-                        errorAlert.showAndWait();
-                    }else if(rep2.getExitCode() == -2){
-                        System.out.println("Emails cancellation partially failed");
-                        errorAlert.setHeaderText("Cancellation partially failed");
-                        errorAlert.setContentText("");
-                        errorAlert.showAndWait();
-                    }else if(rep2.getExitCode() == -3){
-                        System.out.println("Impossible to cancel emails");
-                        errorAlert.setHeaderText("Impossible to cancel emails");
-                        errorAlert.setContentText("");
-                        errorAlert.showAndWait();
-                    }else{
-                        for(int i = 0; i < rep2.getDeleted().size(); i++){
-                            for(int j = 0; j < model.size(); j++){
-                                if(model.getEmails().get(j).getUuid().equals("" + rep2.getDeleted().get(i))){
-                                    model.delete(j);
-                                }
-                            }
-                        }
-                        mails.getItems().remove(mails.getSelectionModel().getSelectedIndex());
-                    }
-                }
-            }catch (ClassNotFoundException | IOException e){
-                System.out.println("Connection error");
-                errorAlert.setHeaderText("Wrong server reply");
-                errorAlert.setContentText("");
-                errorAlert.showAndWait();
-            }
-
-            if(model.size() == 0) {
-                mailText.setText("");
-                mailSubject.setText("");
-                fromMail.setText("");
-                toMail.setText("");
+            if(mails.getSelectionModel().getSelectedIndex() >= 0) {
+                mailText.setText(mails.getSelectionModel().getSelectedItem().getText());
+                mailSubject.setText(mails.getSelectionModel().getSelectedItem().getSubject());
+                fromMail.setText(mails.getSelectionModel().getSelectedItem().getFrom());
+                toMail.setText(("" + mails.getSelectionModel().getSelectedItem().getTo()).replace("[", "").replace("]", ""));
+                date.setText("" + mails.getSelectionModel().getSelectedItem().getDate());
+            }else{
+                mailText.setText(mails.getItems().get(model.size()-1).getText());
+                mailSubject.setText(mails.getItems().get(model.size()-1).getSubject());
+                fromMail.setText(mails.getItems().get(model.size()-1).getFrom());
+                toMail.setText(("" + mails.getItems().get(model.size()-1).getTo()).replace("[", "").replace("]", ""));
+                date.setText("" + mails.getItems().get(model.size() - 1).getDate());
+                mails.getSelectionModel().selectLast();
             }
         }
     }
 
     public void handleButtonReplyEmail(ActionEvent actionEvent) {
+        if(mails.getSelectionModel().getSelectedItem() == null) return;
+
         Stage stage = (Stage) update.getScene().getWindow();
         Parent root = null;
         try {
-            if (actionEvent.getSource() == reply && mails.getSelectionModel().getSelectedItem() != null) {
+            if (actionEvent.getSource() == reply) {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("NewMail.fxml"));
                 root = loader.load();
                 ControllerNewMail controller = loader.getController();
                 controller.setModel(model);
-                Scene scene = new Scene(root, stage.getMaxWidth(), stage.getMaxHeight());
+                model.setController(controller);
+                Scene scene = new Scene(root, 1185, 750);
 
                 URL url = this.getClass().getResource("NewMail.css");
                 if (url == null) {
@@ -169,7 +123,7 @@ public class ControllerMail implements Initializable {
                 String css = url.toExternalForm();
                 scene.getStylesheets().add(css);
                 stage.setTitle("New Mail");
-                stage.setMaximized(true);
+                stage.setResizable(false);
                 stage.setScene(scene);
                 stage.show();
                 
@@ -180,7 +134,8 @@ public class ControllerMail implements Initializable {
                 root = loader.load();
                 ControllerNewMail controller = loader.getController();
                 controller.setModel(model);
-                Scene scene = new Scene(root, stage.getMaxWidth(), stage.getMaxHeight());
+                model.setController(controller);
+                Scene scene = new Scene(root, 1185, 750);
 
                 URL url = this.getClass().getResource("NewMail.css");
                 if (url == null) {
@@ -190,7 +145,7 @@ public class ControllerMail implements Initializable {
                 String css = url.toExternalForm();
                 scene.getStylesheets().add(css);
                 stage.setTitle("New Mail");
-                stage.setMaximized(true);
+                stage.setResizable(false);
                 stage.setScene(scene);
                 stage.show();
 
@@ -204,7 +159,82 @@ public class ControllerMail implements Initializable {
         }
     }
 
+    public void handleButtonActionUpdate(ActionEvent actionEvent) {
+        if(mails != null) mails.getItems().clear();
+        updateEmail(true);
+        sceneChanger(update);
+    }
+
+    public void handleButtonActionDeleteMail(ActionEvent actionEvent) {
+        if(mails.getSelectionModel().getSelectedItem() == null) return;
+
+        delete.setDisable(true);
+        Socket socket;
+        ObjectOutputStream out;
+        ObjectInputStream in;
+        Alert errorAlert = new Alert(Alert.AlertType.ERROR);
+
+        try{
+            socket = new Socket("poggivpn.ddns.net", 8189);
+            out = new ObjectOutputStream(socket.getOutputStream());
+            in = new ObjectInputStream(socket.getInputStream());
+
+            ArrayList<UUID> remove = new ArrayList<>();
+            remove.add(UUID.fromString(mails.getSelectionModel().getSelectedItem().getUuid()));
+            RequestEmailCancellation req = new RequestEmailCancellation(model.getMail(), digest("SHA-256", model.getPassword()), remove);
+            out.writeObject(req);
+
+            Object obj2 = null;
+            obj2 = in.readObject();
+            if(obj2 instanceof ReplyEmailCancellation){
+                ReplyEmailCancellation rep2 = (ReplyEmailCancellation) obj2;
+                if(rep2.getExitCode() == -1){
+                    System.out.println("Cancellation failed");
+                    errorAlert.setHeaderText("Cancellation failed, invalid login");
+                    errorAlert.setContentText("");
+                    errorAlert.showAndWait();
+                }else if(rep2.getExitCode() == -2){
+                    System.out.println("Emails cancellation partially failed");
+                    errorAlert.setHeaderText("Cancellation partially failed");
+                    errorAlert.setContentText("");
+                    errorAlert.showAndWait();
+                }else if(rep2.getExitCode() == -3){
+                    System.out.println("Impossible to cancel emails");
+                    errorAlert.setHeaderText("Impossible to cancel emails");
+                    errorAlert.setContentText("");
+                    errorAlert.showAndWait();
+                }else{
+                    for(int i = 0; i < rep2.getDeleted().size(); i++){
+                        for(int j = 0; j < model.size(); j++){
+                            if(model.getEmails().get(j).getUuid().equals("" + rep2.getDeleted().get(i))){
+                                model.delete(j);
+                            }
+                        }
+                    }
+                    mails.getItems().remove(mails.getSelectionModel().getSelectedIndex());
+                }
+            }
+        }catch (ClassNotFoundException | IOException e){
+            System.out.println("Connection error");
+            errorAlert.setHeaderText("Wrong server reply");
+            errorAlert.setContentText("");
+            errorAlert.showAndWait();
+        }
+
+        if(model.size() == 0) {
+            mailText.setText("");
+            mailSubject.setText("");
+            fromMail.setText("");
+            toMail.setText("");
+        }
+
+        if(model.size() == 0) sceneChanger(delete);
+        delete.setDisable(false);
+    }
+
     public void handleButtonForwardEmail(ActionEvent actionEvent){
+        if(mails.getSelectionModel().getSelectedItem() == null) return;
+
         Stage stage = (Stage) update.getScene().getWindow();
         Parent root = null;
 
@@ -213,7 +243,8 @@ public class ControllerMail implements Initializable {
             root = loader.load();
             ControllerNewMail controller = loader.getController();
             controller.setModel(model);
-            Scene scene = new Scene(root, stage.getMaxWidth(), stage.getMaxHeight());
+            model.setController(controller);
+            Scene scene = new Scene(root, 1185, 750);
 
             URL url = this.getClass().getResource("NewMail.css");
             if (url == null) {
@@ -223,7 +254,7 @@ public class ControllerMail implements Initializable {
             String css = url.toExternalForm();
             scene.getStylesheets().add(css);
             stage.setTitle("New Mail");
-            stage.setMaximized(true);
+            stage.setResizable(false);
             stage.setScene(scene);
             stage.show();
 
@@ -231,13 +262,6 @@ public class ControllerMail implements Initializable {
             controller.setMailText(mails.getSelectionModel().getSelectedItem().getText());
         }catch (IOException e){
             e.printStackTrace();
-        }
-    }
-
-    public void setModel(Model m){
-        this.model = m;
-        for (Email e : model.getEmails()) {
-            mails.getItems().add(e);
         }
     }
 
@@ -276,18 +300,24 @@ public class ControllerMail implements Initializable {
                             }
                             c++;
                             model.getEmails().add(rep2.getEmails().get(i));
-                            if(!flag) mails.getItems().add(model.getEmails().get(model.size()-1));
+                            if(!flag) {
+                                if(mails != null)
+                                    mails.getItems().add(model.getEmails().get(model.size()-1));
+                                else sceneChanger(update);
+                            }
                         }
                         Collections.sort(model.getEmails());
 
-                        popup.setHeaderText("New mail");
-                        popup.setContentText("You've received " + c + " mail(s)!");
-                        popup.show();
-                        try {
-                            Thread.sleep(1000);
-                            popup.hide();
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
+                        if(c > 0) {
+                            popup.setHeaderText("New mail");
+                            popup.setContentText("You've received " + c + " mail(s)!");
+                            popup.show();
+                            try {
+                                Thread.sleep(1000);
+                                popup.hide();
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
                         }
                     }
                 }
@@ -310,9 +340,10 @@ public class ControllerMail implements Initializable {
             try {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("Mail.fxml"));
                 root = loader.load();
-                Scene scene = new Scene(root, stage.getMaxWidth(), stage.getMaxHeight());
+                Scene scene = new Scene(root, 1185, 750);
                 ControllerMail controller = loader.getController();
                 controller.setModel(model);
+                model.setController(controller);
 
                 URL url = this.getClass().getResource("Mail.css");
                 if (url == null) {
@@ -322,7 +353,7 @@ public class ControllerMail implements Initializable {
                 String css = url.toExternalForm();
                 scene.getStylesheets().add(css);
                 stage.setTitle("Mail box");
-                stage.setMaximized(true);
+                stage.setResizable(false);
                 stage.setScene(scene);
                 stage.show();
             } catch (IOException e) {
@@ -333,9 +364,10 @@ public class ControllerMail implements Initializable {
             try {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("Mail2.fxml"));
                 root = loader.load();
-                Scene scene = new Scene(root, stage.getMaxWidth(), stage.getMaxHeight());
+                Scene scene = new Scene(root, 1185, 750);
                 ControllerMail controller = loader.getController();
                 controller.setModel(model);
+                model.setController(controller);
 
                 URL url = this.getClass().getResource("Mail2.css");
                 if (url == null) {
@@ -345,7 +377,7 @@ public class ControllerMail implements Initializable {
                 String css = url.toExternalForm();
                 scene.getStylesheets().add(css);
                 stage.setTitle("Mail box");
-                stage.setMaximized(true);
+                stage.setResizable(false);
                 stage.setScene(scene);
                 stage.show();
             } catch (IOException e) {
@@ -376,8 +408,19 @@ public class ControllerMail implements Initializable {
         return sb.toString();
     }
 
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        new Timer().scheduleAtFixedRate(new TimerUpdate(this),5000,5000);
+    public void setModel(Model m){
+        this.model = m;
+        for (Email e : model.getEmails()) {
+            mails.getItems().add(e);
+        }
+
+        if(!model.getTimer()) {
+            TimerUpdate timer = new TimerUpdate(model);
+            new Timer().scheduleAtFixedRate((timer), 5000, 5000);
+            model.setTimer(true);
+        }
     }
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {}
 }

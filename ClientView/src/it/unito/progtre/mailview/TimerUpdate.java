@@ -1,22 +1,28 @@
 package it.unito.progtre.mailview;
 
 import javafx.application.Platform;
-
 import java.util.TimerTask;
 
 public class TimerUpdate extends TimerTask{
 
-    private ControllerMail controller;
+    private Model model;
 
-    public TimerUpdate(ControllerMail controller){
-        this.controller = controller;
+    public TimerUpdate(Model model){
+        this.model = model;
     }
 
     @Override
     public void run() {
-        Platform.runLater(() -> {
-            controller.updateEmail(false);
-        });
+        if(model.getStopped()){
+            this.cancel();
+            Platform.exit();
+            System.exit(0);
+        }
+        if(model.getController() instanceof ControllerMail) {
+            Platform.runLater(() -> {
+                ((ControllerMail) model.getController()).updateEmail(false);
+            });
+        }
     }
 
 }
