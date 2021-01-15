@@ -24,5 +24,4 @@ public class TimerUpdate extends TimerTask{
             });
         }
     }
-
 }

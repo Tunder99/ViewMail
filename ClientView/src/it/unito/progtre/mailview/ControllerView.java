@@ -97,6 +97,8 @@ public class ControllerView extends GenericController implements Initializable {
                             }
                             sceneChanger(bt1);
                         }
+                    }else{
+                        System.out.println("An unknown object has been received, it will be ignored.");
                     }
                 }catch (ClassNotFoundException e){
                     System.out.println("Connection error");
