@@ -66,13 +66,12 @@ public class ControllerNewMail extends GenericController implements Initializabl
         RequestSendEmail req = null;
         Alert errorAlert = new Alert(Alert.AlertType.ERROR);
         ArrayList<String> to = new ArrayList<>(Arrays.asList(toMails.getText().split(",")));
+
         for(int i = 0; i < to.size(); i++){
             String str = to.get(i);
             to.remove(i);
             to.add(i, str.trim());
         }
-        for (int i = 0; i < to.size(); i++)
-            to.get(i).trim();
 
         try {
             socket = new Socket("poggivpn.ddns.net", 8189);
@@ -186,6 +185,7 @@ public class ControllerNewMail extends GenericController implements Initializabl
             }
             String css = url.toExternalForm();
             scene.getStylesheets().add(css);
+            stage.setTitle("Mail box");
             stage.setResizable(false);
             stage.setScene(scene);
             stage.show();
@@ -209,6 +209,7 @@ public class ControllerNewMail extends GenericController implements Initializabl
             }
             String css = url.toExternalForm();
             scene.getStylesheets().add(css);
+            stage.setTitle("Mail box");
             stage.setResizable(false);
             stage.setScene(scene);
             stage.show();

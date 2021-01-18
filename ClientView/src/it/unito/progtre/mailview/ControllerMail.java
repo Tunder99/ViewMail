@@ -67,9 +67,9 @@ public class ControllerMail extends GenericController implements Initializable{
             Scene scene = new Scene(root, 1185, 750);
 
             URL url = this.getClass().getResource("NewMail.css");
-            if (url == null) {
-                System.out.println("Resource not found. Aborting.");
-                System.exit(-1);
+                if (url == null) {
+                    System.out.println("Resource not found. Aborting.");
+                    System.exit(-1);
             }
             String css = url.toExternalForm();
             scene.getStylesheets().add(css);
@@ -149,9 +149,10 @@ public class ControllerMail extends GenericController implements Initializable{
                 stage.setScene(scene);
                 stage.show();
 
-                mails.getSelectionModel().getSelectedItem().getTo().removeIf(e -> e.trim().equals(model.getMail().trim()));
+                ArrayList<String> copy = (ArrayList<String>)mails.getSelectionModel().getSelectedItem().getTo().clone();
+                copy.removeIf(e -> e.trim().equals(model.getMail().trim()));
                 controller.setToMails(mails.getSelectionModel().getSelectedItem().getFrom() + ","
-                   + ("" + mails.getSelectionModel().getSelectedItem().getTo()).replace("[", "").replace("]", ""));
+                   + (copy.toString()).replace("[", "").replace("]", ""));
                 controller.setSubjectText("Replying to " + mails.getSelectionModel().getSelectedItem().getSubject());
             }
         }catch (IOException e){

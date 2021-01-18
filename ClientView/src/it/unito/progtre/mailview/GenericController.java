@@ -1,4 +1,3 @@
 package it.unito.progtre.mailview;
 
-public class GenericController {
-}
+abstract public class GenericController { }
